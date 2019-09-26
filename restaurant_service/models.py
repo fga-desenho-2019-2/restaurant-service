@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Shopping(models.Model):
+  created = models.DateTimeField(auto_now_add=True)
   cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
   latitude = models.FloatField()
@@ -15,6 +16,7 @@ class Shopping(models.Model):
   phone = models.CharField(max_length=11)
   
   class Meta:
+    ordering = ['created']
     verbose_name = u'Shopping'
     verbose_name_plural = u'Shoppings'
 
