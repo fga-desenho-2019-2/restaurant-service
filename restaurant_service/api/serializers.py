@@ -1,18 +1,12 @@
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 import restaurant_service.models as model
 
-class ShoppingSerializer(serializers.Serializer):
-  cnpj = serializers.CharField()
-  name = serializers.CharField()
-  latitude = serializers.FloatField()
-  longitude = serializers.FloatField()
-  city = serializers.CharField()
-  state = serializers.CharField()
-  country = serializers.CharField()
-  neighborhood = serializers.CharField()
-  street = serializers.CharField()
-  number = serializers.IntegerField()
-  phone = serializers.CharField()
+
+class ShoppingSerializer(ModelSerializer):
+  
+  class Meta:
+    model = model.Shopping
+    fields = '__all__'
 
 
 class OpeningHoursSerializer(ModelSerializer):
