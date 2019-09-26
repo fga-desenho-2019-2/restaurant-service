@@ -13,7 +13,7 @@ class Shopping(models.Model):
   neighborhood = models.CharField(max_length=50)
   street = models.CharField(max_length=50)
   number = models.IntegerField()
-  phone = models.CharField(max_length=11)
+  phone = models.CharField(max_length=12)
   
   class Meta:
     ordering = ['created']
