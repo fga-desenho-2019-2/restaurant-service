@@ -51,17 +51,16 @@ class Restaurant(models.Model):
   number = models.IntegerField()
   description = models.CharField(max_length=200)
   phone = models.CharField(max_length=11)
-  shopping = models.ForeignKey(
-    Shopping, 
-    on_delete=models.CASCADE,
-    related_name="restaurants"
-  )
-  category = models.ForeignKey(
-    RestaurantCategory, 
-    on_delete=models.CASCADE,
-    related_name="restaurants"
-  )
-  opening_hours = models.ManyToManyField(OpeningHours)
+ #   Shopping, 
+ #   on_delete=models.CASCADE,
+ #   related_name="restaurants"
+ # )
+ # category = models.ForeignKey(
+ #   RestaurantCategory, 
+ #   on_delete=models.CASCADE,
+ #   related_name="restaurants"
+ # )
+ # opening_hours = models.ManyToManyField(OpeningHours)
 
   class Meta:
     verbose_name = u'Restaurant'

@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .views import *
+from .views import post_or_get
 
 urlpatterns = [
-    # path('', className.as_view(), name="class_name"),
+    path('restaurant/', post_or_get, name="restaurant"),
 ]

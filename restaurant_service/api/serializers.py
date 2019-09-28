@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-import restaurant_service.models as model
+import restaurant_service.api.models as model
 
 
 class ShoppingSerializer(ModelSerializer):
