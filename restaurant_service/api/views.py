@@ -16,6 +16,7 @@ def post_or_get(request):
     """
     List all restaurant, or create a new restaurant.
     """
+
     if request.method == 'GET':
         restaurants = Restaurant.objects.all()
         serializer = RestaurantSerializer(restaurants, many=True)

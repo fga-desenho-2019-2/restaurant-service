@@ -1,17 +1,14 @@
 from django.db import models
 
-# Create your models here.
 class Shopping(models.Model):
   created = models.DateTimeField(auto_now_add=True)
   cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
-  latitude = models.FloatField()
-  longitude = models.FloatField()
   city = models.CharField(max_length=100)
   state = models.CharField(max_length=30)
   country = models.CharField(max_length=50)
   neighborhood = models.CharField(max_length=50)
-  street = models.CharField(max_length=50)
+  cep = models.CharField(max_length=8)
   number = models.IntegerField()
   phone = models.CharField(max_length=12)
   
@@ -48,19 +45,21 @@ class RestaurantCategory(models.Model):
 class Restaurant(models.Model):
   cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
-  number = models.IntegerField()
-  description = models.CharField(max_length=200)
+  corporate_name = models.CharField(max_length=100, default=name)
+  store_number = models.IntegerField()
+  description = models.CharField(max_length=200, blank=True)
   phone = models.CharField(max_length=11)
- #   Shopping, 
- #   on_delete=models.CASCADE,
- #   related_name="restaurants"
- # )
- # category = models.ForeignKey(
- #   RestaurantCategory, 
- #   on_delete=models.CASCADE,
- #   related_name="restaurants"
- # )
- # opening_hours = models.ManyToManyField(OpeningHours)
+  shopping = models.ForeignKey(
+    Shopping, 
+    on_delete=models.CASCADE,
+    related_name="restaurants"
+  )
+  category = models.ForeignKey(
+    RestaurantCategory, 
+    on_delete=models.CASCADE,
+    related_name="restaurants"
+  )
+  opening_hours = models.ManyToManyField(OpeningHours)
 
   class Meta:
     verbose_name = u'Restaurant'
@@ -69,11 +68,34 @@ class Restaurant(models.Model):
   def __str__(self):
     return self.name
 
+class MenuCategory(models.Model):
+  title = models.CharField(max_length=50)
+  description = models.CharField(max_length=200, blank=True)
+  required = models.BooleanField()
+  number_of_menus = models.IntegerField()
   
+  class Meta:
+    verbose_name = u'Menu category'
+    verbose_name_plural = u'Menus categorys'
+
+  def __str__(self):
+    return self.title
+  
+
 class Menu(models.Model):
   description = models.CharField(max_length=200)
   restaurant = models.ForeignKey(
     Restaurant, 
+    on_delete=models.CASCADE,
+    related_name="menus"
+  )
+  restaurant = models.ForeignKey(
+    Restaurant, 
+    on_delete=models.CASCADE,
+    related_name="menus"
+  )
+  category = models.ForeignKey(
+    MenuCategory, 
     on_delete=models.CASCADE,
     related_name="menus"
   )
@@ -86,42 +108,42 @@ class Menu(models.Model):
     return self.description
 
 
-class ItemMenu(models.Model):
-  name = models.CharField(max_length=50)
-  value = models.FloatField()
-  description = models.CharField(max_length=200)
-  preparation_time = models.DurationField()
-  menu = models.ForeignKey(
-    Menu, 
-    on_delete=models.CASCADE,
-    related_name="item_menu"
-  )
-
-  class Meta:
-    verbose_name = u'Item menu'
-    verbose_name_plural = u'Items menu'
-
-  def __str__(self):
-    return self.name
-
-
 class ItemCategory(models.Model):
   title = models.CharField(max_length=50)
-  description = models.CharField(max_length=200)
+  description = models.CharField(max_length=200, blank=True)
   required = models.BooleanField()
   number_of_items = models.IntegerField()
-  item_menu = models.ForeignKey(
-    ItemMenu, 
-    on_delete=models.CASCADE,
-    related_name="item_category"
-  )
-
+  
   class Meta:
     verbose_name = u'Item category'
-    verbose_name_plural = u'Items category'
+    verbose_name_plural = u'Items categorys'
 
   def __str__(self):
     return self.title
+
+
+class Item(models.Model):
+  name = models.CharField(max_length=50)
+  value = models.FloatField()
+  description = models.CharField(max_length=200, blank=True)
+  preparation_time = models.DurationField(blank=True)
+  menu = models.ForeignKey(
+    Menu, 
+    on_delete=models.CASCADE,
+    related_name="items"
+  )
+  category = models.ForeignKey(
+    ItemCategory, 
+    on_delete=models.CASCADE,
+    related_name="items"
+  )
+
+  class Meta:
+    verbose_name = u'Item'
+    verbose_name_plural = u'Items'
+
+  def __str__(self):
+    return self.name
 
 
 class CategoryOption(models.Model):
@@ -129,14 +151,14 @@ class CategoryOption(models.Model):
   description = models.CharField(max_length=200)
   value = models.FloatField(blank=True)
   item_category = models.ForeignKey(
-    ItemCategory, 
+    ItemCategory,
     on_delete=models.CASCADE,
     related_name="category_option"
   )
 
   class Meta:
     verbose_name = u'Category option'
-    verbose_name_plural = u'Category options'
+    verbose_name_plural = u'Categorys options'
 
   def __str__(self):
     return self.title

@@ -37,10 +37,10 @@ class MenuSerializer(ModelSerializer):
     fields = '__all__'
 
 
-class ItemMenuSerializer(ModelSerializer):
+class ItemSerializer(ModelSerializer):
   
   class Meta:
-    model = model.ItemMenu
+    model = model.Item
     fields = '__all__'
 
 
@@ -50,9 +50,15 @@ class ItemCategorySerializer(ModelSerializer):
     model = model.ItemCategory
     fields = '__all__'
 
+class MenuCategorySerializer(ModelSerializer):
+  
+  class Meta:
+    model = model.MenuCategory
+    fields = '__all__'
 
 class CategoryOptionSerializer(ModelSerializer):
-  
+
   class Meta:
     model = model.CategoryOption
     fields = '__all__'
+

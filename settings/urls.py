@@ -21,4 +21,5 @@ from django.urls import path, include
 urlpatterns = [
     path('api/', include('restaurant_service.api.urls')),
     path('admin/', admin.site.urls),
+    path ('', get_swagger_view('User Service API')),
 ]
