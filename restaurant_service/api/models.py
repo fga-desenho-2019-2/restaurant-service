@@ -7,7 +7,7 @@ class Shopping(models.Model):
   city = models.CharField(max_length=100)
   state = models.CharField(max_length=30)
   country = models.CharField(max_length=50)
-  neighborhood = models.CharField(max_length=50)
+  neighborhood = models.CharField(max_length=50, blank=True)
   cep = models.CharField(max_length=8)
   number = models.IntegerField()
   phone = models.CharField(max_length=12)
@@ -68,34 +68,11 @@ class Restaurant(models.Model):
   def __str__(self):
     return self.name
 
-class MenuCategory(models.Model):
-  title = models.CharField(max_length=50)
-  description = models.CharField(max_length=200, blank=True)
-  required = models.BooleanField()
-  number_of_menus = models.IntegerField()
-  
-  class Meta:
-    verbose_name = u'Menu category'
-    verbose_name_plural = u'Menus categorys'
-
-  def __str__(self):
-    return self.title
-  
 
 class Menu(models.Model):
   description = models.CharField(max_length=200)
   restaurant = models.ForeignKey(
     Restaurant, 
-    on_delete=models.CASCADE,
-    related_name="menus"
-  )
-  restaurant = models.ForeignKey(
-    Restaurant, 
-    on_delete=models.CASCADE,
-    related_name="menus"
-  )
-  category = models.ForeignKey(
-    MenuCategory, 
     on_delete=models.CASCADE,
     related_name="menus"
   )
@@ -146,19 +123,19 @@ class Item(models.Model):
     return self.name
 
 
-class CategoryOption(models.Model):
+class Complement(models.Model):
   title = models.CharField(max_length=50)
   description = models.CharField(max_length=200)
   value = models.FloatField(blank=True)
   item_category = models.ForeignKey(
     ItemCategory,
     on_delete=models.CASCADE,
-    related_name="category_option"
+    related_name="complement_category"
   )
 
   class Meta:
-    verbose_name = u'Category option'
-    verbose_name_plural = u'Categorys options'
+    verbose_name = u'Complement category'
+    verbose_name_plural = u'Complements categorys'
 
   def __str__(self):
     return self.title

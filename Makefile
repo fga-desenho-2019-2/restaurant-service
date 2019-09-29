@@ -46,4 +46,4 @@ migrate:
 
 test:
 	# run unit tests
-	docker-compose run web python manage.py test
+	docker-compose run api python manage.py test

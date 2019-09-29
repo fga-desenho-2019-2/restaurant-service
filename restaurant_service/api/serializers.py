@@ -50,15 +50,10 @@ class ItemCategorySerializer(ModelSerializer):
     model = model.ItemCategory
     fields = '__all__'
 
-class MenuCategorySerializer(ModelSerializer):
-  
-  class Meta:
-    model = model.MenuCategory
-    fields = '__all__'
 
-class CategoryOptionSerializer(ModelSerializer):
+class ComplementSerializer(ModelSerializer):
 
   class Meta:
-    model = model.CategoryOption
+    model = model.Complement
     fields = '__all__'
 

@@ -1,7 +1,15 @@
 from django.test import TestCase
 from model_mommy import mommy
-# from django.utils.timezone import datetime
-from restaurant_service.models import Shopping, OpeningHours, RestaurantCategory, Restaurant, Menu, ItemMenu, ItemCategory, CategoryOption
+from restaurant_service.api.models import (
+    Shopping, 
+    OpeningHours, 
+    RestaurantCategory, 
+    Restaurant, 
+    Menu, 
+    Item, 
+    ItemCategory, 
+    Complement
+)
 
 
 class TestShopping(TestCase):
@@ -9,13 +17,11 @@ class TestShopping(TestCase):
     self.shopping = mommy.make(Shopping, 
       cnpj = '13339532000109',
       name = 'Shopping Mauá',
-      latitude = -15.837045,
-      longitude = -48.033509,
       city = 'Mauá City',
       state = 'Tocantis',
       country = 'Brasil',
       neighborhood = 'Bairro das Castanheiras',
-      street = 'Rua 198',
+      cep = '7222323',
       number = 10,
       phone = '99999999999'
     )
@@ -51,13 +57,11 @@ class TestRestaurant(TestCase):
     self.shopping = mommy.make(Shopping, 
       cnpj = '13339532000109',
       name = 'Shopping Mauá',
-      latitude = -15.837045,
-      longitude = -48.033509,
       city = 'Mauá City',
       state = 'Tocantis',
       country = 'Brasil',
       neighborhood = 'Bairro das Castanheiras',
-      street = 'Rua 198',
+      cep = '7222323',
       number = 10,
       phone = '99999999999'
     )
@@ -75,7 +79,7 @@ class TestRestaurant(TestCase):
     self.restaurant = mommy.make(Restaurant, 
       cnpj = '13339532000109',
       name = 'Burger King',
-      number = 112,
+      store_number = 112,
       description = 'O melhor FastFood',
       phone = '99999999999',
       shopping = self.shopping,
@@ -93,7 +97,7 @@ class TestMenu(TestCase):
     self.restaurant = mommy.make(Restaurant, 
       cnpj = '13339532000109',
       name = 'Burger King',
-      number = 112,
+      store_number = 112,
       description = 'O melhor FastFood',
       phone = '99999999999',
     )
@@ -104,10 +108,10 @@ class TestMenu(TestCase):
     self.assertEquals(self.menu.__str__(), self.menu.description)
 
 
-class TestItemMenu(TestCase):
+class TestItem(TestCase):
   def setUp(self):
     self.menu = mommy.make(Menu, description = 'Combos')
-    self.item_menu = mommy.make(ItemMenu, 
+    self.item = mommy.make(Item, 
       name = 'X-Salada',
       value = 20.50,
       description = 'Sanduiche muito gostoso', 
@@ -116,13 +120,13 @@ class TestItemMenu(TestCase):
     )
       
   def test_shopping_creation(self):
-    self.assertTrue(isinstance(self.item_menu, ItemMenu))
-    self.assertEquals(self.item_menu.__str__(), self.item_menu.name)
+    self.assertTrue(isinstance(self.item, Item))
+    self.assertEquals(self.item.__str__(), self.item.name)
 
 
 class TestItemCategory(TestCase):
   def setUp(self):
-    self.item_menu = mommy.make(ItemMenu, 
+    self.item = mommy.make(Item, 
       name = 'X-Salada',
       value = 20.50,
       description = 'Sanduiche muito gostoso', 
@@ -132,8 +136,7 @@ class TestItemCategory(TestCase):
       title = 'Escolha um molho',
       description = 'Escolha apenas 1 molho',
       required = True, 
-      number_of_items = 1,
-      item_menu = self.item_menu
+      number_of_items = 1
     )
       
   def test_shopping_creation(self):
@@ -141,7 +144,7 @@ class TestItemCategory(TestCase):
     self.assertEquals(self.item_category.__str__(), self.item_category.title)
 
 
-class TestCategoryOption(TestCase):
+class TestComplement(TestCase):
   def setUp(self):
     self.item_category = mommy.make(ItemCategory, 
       title = 'Escolha um molho',
@@ -149,7 +152,7 @@ class TestCategoryOption(TestCase):
       required = True, 
       number_of_items = 1,
     )
-    self.category_option = mommy.make(CategoryOption, 
+    self.complement = mommy.make(Complement, 
       title = 'Maionese',
       description = 'Maionese especial do BK',
       value = 1.00, 
@@ -157,7 +160,5 @@ class TestCategoryOption(TestCase):
     )
       
   def test_shopping_creation(self):
-    self.assertTrue(isinstance(self.category_option, CategoryOption))
-    self.assertEquals(self.category_option.__str__(), self.category_option.title)
-
-
+    self.assertTrue(isinstance(self.complement, Complement))
+    self.assertEquals(self.complement.__str__(), self.complement.title)
