@@ -9,7 +9,7 @@ from .models import (
     Restaurant,
 )
 from .serializers import(
-    RestaurantSerializer
+    RestaurantSerializer,
 )
 
 @api_view(['POST', 'GET'])
