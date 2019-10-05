@@ -15,10 +15,32 @@ from restaurant_service.api.models import (
 )
 
 
+class QRCodeTest(APITestCase):
+    def setUp(self):
+        self.shopping = mommy.make(Shopping,
+            cnpj = 13339532,
+            name = 'Shopping Mauá',
+            city = 'Mauá City',
+            state = 'Tocantis',
+            country = 'Brasil',
+            neighborhood = 'Bairro das Castanheiras',
+            cep = '7222323',
+            number = 10,
+            phone = '99999999999'
+        )
+        self.pk = 13339532
+        self.url_qrcode = reverse('see_qrcode', args = [self.pk])
+
+    def test_get_qrcode(self):
+        response = self.client.get(self.url_qrcode)
+        response = self.client.post('/api/qrcode/<int:pk>', response)
+        self.assertEqual(response.status_code, 200)
+        print(response)
+
 class RestaurantTests(APITestCase):
     def setUp(self):
         self.shopping = mommy.make(Shopping,
-            cnpj = '13339532000109',
+            cnpj = 13339532,
             name = 'Shopping Mauá',
             city = 'Mauá City',
             state = 'Tocantis',
@@ -31,7 +53,7 @@ class RestaurantTests(APITestCase):
         self.opening_hours_monday = mommy.make(OpeningHours,
             day = 'Segunda-feira',
             start_time = '10:00:00',
-            end_time = '22:00:00',
+            end_time = '22:00:00', 
         )
         self.opening_hours_thuesday = mommy.make(OpeningHours,
             day = 'Terça-feira',
@@ -40,7 +62,7 @@ class RestaurantTests(APITestCase):
         )
         self.category = mommy.make(RestaurantCategory, name = 'Fast-food' )
         self.restaurant = {
-               'cnpj' : '13339532000109',
+               'cnpj' : '13339532',
                'name' : 'Burger King',
                'store_number': 112,
                'description'  : 'O melhor FastFood',
@@ -50,7 +72,7 @@ class RestaurantTests(APITestCase):
                'opening_hours' : [self.opening_hours_monday.pk, self.opening_hours_thuesday.pk]
         }
 
-        self.pk = '13339532000109'
+        self.pk = 13339532
         self.url_post = reverse('restaurant') # url "api/restaurant"
         self.url_by_pk = reverse('restaurant_by_pk', args=[self.pk]) # url "api/restaurant/<int:pk>"
 
@@ -67,7 +89,7 @@ class RestaurantTests(APITestCase):
         self.assertEqual(Restaurant.objects.get().name, 'Burger King')
         
 
-    def test_put(self):
+    def test_put_restaurant(self):
         """
         Ensure we can put a restaurant
         """
@@ -80,9 +102,9 @@ class RestaurantTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Restaurant.objects.get(pk=self.pk).name, 'Mack Donalds')
     
-    def test_delete(self):
+    def test_delete_shopping(self):
         """
-        Ensure we can put a restaurant
+        Ensure we can delete a restaurant
         """
         
         response = self.client.post(self.url_post, self.restaurant, format='json') 
@@ -92,7 +114,72 @@ class RestaurantTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Restaurant.objects.count(), 0)
 
+class ShopppingTests(APITestCase):
+    def setUp(self):
+        self.shopping = mommy.make(Shopping,
+            cnpj = 13339532,
+            name = 'Shopping Mauá',
+            city = 'Mauá City',
+            state = 'Tocantis',
+            country = 'Brasil',
+            neighborhood = 'Bairro das Castanheiras',
+            cep = '7222323',
+            number = 10,
+            phone = '99999999999'
+        )
+        self.shopping = {
+            'cnpj' : 13339532,
+            'name' : 'Shopping Mauá',
+            'city' : 'Mauá City',
+            'state' : 'Tocantis',
+            'country' : 'Brasil',
+            'neighborhood' : 'Bairro das Castanheiras',
+            'cep' : '7222323',
+            'number' : 10,
+            'phone' : '99999999999'
+        }
 
+        self.pk = 13339532
+        self.url_post = reverse('shopping') # url "api/shopping"
+        self.url_by_pk = reverse('shopping_by_pk', args=[self.pk]) # url "api/shopping/<int:pk>"
+
+
+    def test_post_shopping(self):
+        """
+        Ensure we can create a new shopping object.
+        """
+
+        # test post with success
+        response = self.client.post(self.url_post, self.shopping, format='json') 
+        print(response)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Shopping.objects.count(), 1)
+        self.assertEqual(Shopping.objects.get().name, 'Shopping Mauá')
         
+
+    def test_put_shopping(self):
+        """
+        Ensure we can put a shopping
+        """
+        
+        response = self.client.post(self.url_post, self.shopping, format='json') 
+
+        # test put with success
+        self.shopping['name'] = 'Park Shopping'
+        response = self.client.put(self.url_by_pk,  self.shopping, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Shopping.objects.get(pk=self.pk).name, 'Park Shopping')
+    
+    def test_delete_shopping(self):
+        """
+        Ensure we can delete a shopping
+        """
+        
+        response = self.client.post(self.url_post, self.shopping, format='json') 
+
+        # test delete with success
+        response = self.client.delete(self.url_by_pk,  self.shopping, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Shopping.objects.count(), 0)
 
 

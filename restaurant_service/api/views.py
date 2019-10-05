@@ -24,7 +24,7 @@ def see_qrcode(request, pk):
 
     url = 'http://localhost:8001/'
     # String which represent the QR code
-    s = "{ulr}shopping/" + str(pk)
+    s = "{url}shopping/" + str(pk)
 
     # Generate QR code
     url = pyqrcode.create(s)
@@ -49,6 +49,35 @@ def post_or_get_restaurant(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201, safe=False)
         return JsonResponse(serializer.errors, status=400, safe=False)
+
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def restaurant_by_pk(request, pk):
+    """
+    Resquests by restaurant pk for consult detail, edit or delete.
+    """
+
+    try:
+        restaurant = Restaurant.objects.get(pk=pk)
+    except Restaurant.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = RestaurantSerializer(restaurant)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = RestaurantSerializer(restaurant, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        restaurant.delete()
+        return HttpResponse(status=204)
 
 @api_view(['GET', 'POST'])
 def post_or_get_shopping(request):
@@ -94,32 +123,4 @@ def shopping_by_pk(request, pk):
 
     elif request.method == 'DELETE':
         shopping.delete()
-        return HttpResponse(status=204)
-
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def restaurant_by_pk(request, pk):
-    """
-    Resquests by restaurant pk for consult detail, edit or delete.
-    """
-
-    try:
-        restaurant = Restaurant.objects.get(pk=pk)
-    except Restaurant.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = RestaurantSerializer(restaurant)
-        return JsonResponse(serializer.data)
-
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = RestaurantSerializer(restaurant, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
-
-    elif request.method == 'DELETE':
-        restaurant.delete()
         return HttpResponse(status=204)

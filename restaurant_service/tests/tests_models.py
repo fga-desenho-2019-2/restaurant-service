@@ -15,7 +15,7 @@ from restaurant_service.api.models import (
 class TestShopping(TestCase):
   def setUp(self):
     self.shopping = mommy.make(Shopping, 
-      cnpj = '13339532000109',
+      cnpj = 13339532,
       name = 'Shopping Mauá',
       city = 'Mauá City',
       state = 'Tocantis',
@@ -23,7 +23,7 @@ class TestShopping(TestCase):
       neighborhood = 'Bairro das Castanheiras',
       cep = '7222323',
       number = 10,
-      phone = '99999999999'
+      phone = '99999999999',
     )
       
   def test_shopping_creation(self):
@@ -55,7 +55,7 @@ class TestRestaurantCategory(TestCase):
 class TestRestaurant(TestCase):
   def setUp(self):
     self.shopping = mommy.make(Shopping, 
-      cnpj = '13339532000109',
+      cnpj = 13339532,
       name = 'Shopping Mauá',
       city = 'Mauá City',
       state = 'Tocantis',
@@ -63,7 +63,7 @@ class TestRestaurant(TestCase):
       neighborhood = 'Bairro das Castanheiras',
       cep = '7222323',
       number = 10,
-      phone = '99999999999'
+      phone = '9999999999',
     )
     self.opening_hours_monday = mommy.make(OpeningHours, 
       day = 'Segunda-feira',
@@ -77,7 +77,7 @@ class TestRestaurant(TestCase):
     )
     self.category = mommy.make(RestaurantCategory, name = 'Fast-food' )
     self.restaurant = mommy.make(Restaurant, 
-      cnpj = '13339532000109',
+      cnpj = '13339532',
       name = 'Burger King',
       store_number = 112,
       description = 'O melhor FastFood',
@@ -95,7 +95,7 @@ class TestRestaurant(TestCase):
 class TestMenu(TestCase):
   def setUp(self):
     self.restaurant = mommy.make(Restaurant, 
-      cnpj = '13339532000109',
+      cnpj = '13339532',
       name = 'Burger King',
       store_number = 112,
       description = 'O melhor FastFood',

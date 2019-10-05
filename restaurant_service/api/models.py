@@ -48,7 +48,7 @@ class Restaurant(models.Model):
   corporate_name = models.CharField(max_length=100, default=name)
   store_number = models.IntegerField()
   description = models.CharField(max_length=200, blank=True)
-  phone = models.CharField(max_length=11)
+  phone = models.CharField(max_length=12)
   shopping = models.ForeignKey(
     Shopping, 
     on_delete=models.CASCADE,
