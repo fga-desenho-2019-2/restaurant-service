@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 import pyqrcode 
 
@@ -12,7 +11,7 @@ from .models import (
 )
 from .serializers import(
     RestaurantSerializer, ShoppingSerializer,
-    ItemSerializer
+    ItemSerializer, MenuSerializer
 )
 
 @api_view(['GET'])
@@ -165,9 +164,54 @@ def item_by_pk(request, pk):
         serializer = ItemSerializer(item, data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
         item.delete()
         return HttpResponse(status=204)
+
+@api_view(['POST', 'GET'])
+def post_or_get_menu(request):
+    """
+    List all menu, or create a new menu.
+    """
+
+    if request.method == 'GET':
+        menus = Menu.objects.all()
+        serializer = MenuSerializer(menus, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = MenuSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201, safe=False)
+        return JsonResponse(serializer.errors, status=400, safe=False)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def menu_by_pk(request, pk):
+    """
+    Resquests by menu pk for consult detail, edit or delete.
+    """
+
+    try:
+        menu = Menu.objects.get(pk=pk)
+    except Menu.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = MenuSerializer(menu)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = MenuSerializer(menu, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        menu.delete()
+        return HttpResponse(status=204)
+
