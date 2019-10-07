@@ -29,7 +29,11 @@ def see_qrcode(request, pk):
     # Generate QR code
     url = pyqrcode.create(s)
 
-    return JsonResponse(url.png_as_base64_str(scale = 10, background = '#efefef',module_color = '#ef596b'), safe=False)
+    qrString = {
+        'qrcode': url.png_as_base64_str(scale = 10, background = '#efefef',module_color = '#ef596b')
+    }
+
+    return JsonResponse(qrString , safe=False)
 
 @api_view(['POST', 'GET'])
 def post_or_get_restaurant(request):
