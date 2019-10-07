@@ -18,7 +18,7 @@ from pyqrcode import QRCode
 @api_view(['GET'])
 def see_qrcode(request, pk):
     try:
-        shopping = Shopping.objects.get(pk=pk)
+        Shopping.objects.get(pk=pk)
     except Shopping.DoesNotExist:
         return HttpResponse(status=404)
 
