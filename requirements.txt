@@ -5,3 +5,4 @@ django-rest-swagger
 model_mommy
 pyqrcode
 pypng
+django-cors-middleware
