@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import pyqrcode 
 
 from .models import (
-    Restaurant, Shopping, Item
+    Restaurant, Shopping, Item, Menu
 )
 from .serializers import(
     RestaurantSerializer, ShoppingSerializer,
@@ -164,6 +164,8 @@ def item_by_pk(request, pk):
         serializer = ItemSerializer(item, data=data)
         if serializer.is_valid():
             serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
         item.delete()
