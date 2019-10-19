@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 
 ADD . .
 
-EXPOSE 8001
+EXPOSE 8000
