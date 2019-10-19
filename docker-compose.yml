@@ -8,7 +8,7 @@ services:
       DB_USER: admin
       DB_PASS: admin
       GATEWAY_PATH: http://api-gateway:5000
-    command: python manage.py runserver 0.0.0.0:8001
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/project
     ports:
