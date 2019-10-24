@@ -111,12 +111,19 @@ class TestMenu(TestCase):
 class TestItem(TestCase):
   def setUp(self):
     self.menu = mommy.make(Menu, description = 'Combos')
+    self.category = mommy.make(ItemCategory, 
+      title = 'Escolha um molho',
+      description = 'Escolha apenas 1 molho',
+      required = True, 
+      number_of_items = 1
+    )
     self.item = mommy.make(Item, 
       name = 'X-Salada',
       value = 20.50,
       description = 'Sanduiche muito gostoso', 
       preparation_time = '00:15:00',
-      menu = self.menu
+      menu = self.menu,
+      category = self.category
     )
       
   def test_shopping_creation(self):
@@ -126,12 +133,6 @@ class TestItem(TestCase):
 
 class TestItemCategory(TestCase):
   def setUp(self):
-    self.item = mommy.make(Item, 
-      name = 'X-Salada',
-      value = 20.50,
-      description = 'Sanduiche muito gostoso', 
-      preparation_time = '00:15:00',
-    )
     self.item_category = mommy.make(ItemCategory, 
       title = 'Escolha um molho',
       description = 'Escolha apenas 1 molho',

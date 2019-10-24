@@ -110,7 +110,7 @@ class RestaurantTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Restaurant.objects.get(pk=self.pk).name, 'Mack Donalds')
     
-    def test_delete_shopping(self):
+    def test_delete_restaurant(self):
         """
         Ensure we can delete a restaurant
         """
@@ -179,3 +179,131 @@ class ShopppingTests(APITestCase):
         self.assertEqual(Shopping.objects.count(), 0)
 
 
+class ItemTests(APITestCase):
+    def setUp(self):
+        self.category = mommy.make(ItemCategory,
+            title = "Bebidas",
+            description = 'Acompanhamentos líquidos',
+            required = True,
+            number_of_items = 11
+        )
+        self.menu = mommy.make(Menu,
+            description = "Massas"
+        )
+        self.item = {
+               'name' : 'Macarrão',
+               'value' : 12.00,
+               'description'  : 'Espaguete',
+               'category' : self.category.pk,
+               'preparation_time' : '00:45:00',
+               'menu': self.menu.pk
+        }
+
+        self.url_post = reverse('item') # url "api/item"
+
+    def test_post_item(self):
+        """
+        Ensure we can create a new item object.
+        """
+
+        # test post with success
+        response = self.client.post(self.url_post, self.item, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Item.objects.count(), 1)
+        self.assertEqual(Item.objects.get().name, 'Macarrão')
+        
+
+    def test_put_item(self):
+        """
+        Ensure we can put a item
+        """
+        
+        response = self.client.post(self.url_post, self.item, format='json') 
+
+        item = Item.objects.get(name="Macarrão")
+        pk = item.pk
+        url_by_pk = reverse('item_by_pk', args=[pk]) # url "api/item/<int:pk>"
+
+        # test put with success
+        self.item['name'] = 'Pizza'
+        response = self.client.put(url_by_pk,  self.item, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Item.objects.get(pk=pk).name, 'Pizza')
+    
+    def test_delete_item(self):
+        """
+        Ensure we can delete a item
+        """
+        
+        response = self.client.post(self.url_post, self.item, format='json') 
+        
+        item = Item.objects.get(name="Macarrão")
+        pk = item.pk
+        url_by_pk = reverse('item_by_pk', args=[pk]) # url "api/item/<int:pk>"
+
+        # test delete with success
+        response = self.client.delete(url_by_pk,  self.item, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Item.objects.count(), 0)
+
+class MenuTests(APITestCase):
+    def setUp(self):
+        self.restaurant = mommy.make(Restaurant,
+               cnpj = '13339532',
+               name = 'Burger King',
+               store_number = 112,
+               description = 'O melhor FastFood',
+               phone = '99999999999',
+        )
+
+        self.menu = {
+                'description' : 'Massas',
+                'restaurant' : self.restaurant.pk
+        }
+
+        self.url_post = reverse('menu') # url "api/menu"
+
+    def test_post_menu(self):
+        """
+        Ensure we can create a new menu object.
+        """
+
+        # test post with success
+        response = self.client.post(self.url_post, self.menu, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Menu.objects.count(), 1)
+        self.assertEqual(Menu.objects.get().description, 'Massas')
+        
+
+    def test_put_menu(self):
+        """
+        Ensure we can put a menu
+        """
+        
+        response = self.client.post(self.url_post, self.menu, format='json') 
+
+        menu = Menu.objects.get(description="Massas")
+        pk = menu.pk
+        url_by_pk = reverse('menu_by_pk', args=[pk]) # url "api/menu/<int:pk>"
+
+        # test put with success
+        self.menu['description'] = 'Sanduiches'
+        response = self.client.put(url_by_pk,  self.menu, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Menu.objects.get(pk=pk).description, 'Sanduiches')
+    
+    def test_delete_menu(self):
+        """
+        Ensure we can delete a menu
+        """
+        
+        response = self.client.post(self.url_post, self.menu, format='json') 
+
+        menu = Menu.objects.get(description="Massas")
+        pk = menu.pk
+        url_by_pk = reverse('menu_by_pk', args=[pk]) # url "api/menu/<int:pk>"
+
+        # test delete with success
+        response = self.client.delete(url_by_pk,  self.menu, format='json') 
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Menu.objects.count(), 0)
