@@ -9,11 +9,11 @@ class ShoppingSerializer(ModelSerializer):
     fields = '__all__'
 
 
-class OpeningHoursSerializer(ModelSerializer):
-  
-  class Meta:
-    model = model.OpeningHours
-    fields = '__all__'
+#class OpeningHoursSerializer(ModelSerializer):
+#  
+#  class Meta:
+#    model = model.OpeningHours
+#    fields = '__all__'
 
 
 class RestaurantCategorySerializer(ModelSerializer):

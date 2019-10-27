@@ -21,15 +21,15 @@ class Shopping(models.Model):
   def __str__(self):
     return self.name
 
-class OpeningHours(models.Model):
-  day = models.CharField(max_length=50)
-  start_time = models.TimeField()
-  end_time = models.TimeField()
-
-  class Meta:
-    verbose_name = u'OpeningHours'
-    verbose_name_plural = u'OpeningHours'
-    
+#class OpeningHours(models.Model):
+#  day = models.CharField(max_length=50)
+#  start_time = models.TimeField()
+#  end_time = models.TimeField()
+#
+#  class Meta:
+#    verbose_name = u'OpeningHours'
+#    verbose_name_plural = u'OpeningHours'
+#    
 
 class RestaurantCategory(models.Model):
   name = models.CharField(max_length=60)
@@ -59,7 +59,7 @@ class Restaurant(models.Model):
     on_delete=models.CASCADE,
     related_name="restaurants"
   )
-  opening_hours = models.ManyToManyField(OpeningHours)
+  #opening_hours = models.ManyToManyField(OpeningHours)
 
   class Meta:
     verbose_name = u'Restaurant'

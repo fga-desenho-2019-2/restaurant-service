@@ -8,11 +8,13 @@ from abc import ABC, abstractmethod
 import pyqrcode 
 
 from .models import (
-    Restaurant, Shopping, Item, Menu
+    Restaurant, Shopping, Item, Menu,
+    RestaurantCategory, ItemCategory, Complement
 )
 from .serializers import(
-    RestaurantSerializer, ShoppingSerializer,
-    ItemSerializer, MenuSerializer
+    RestaurantSerializer, ShoppingSerializer, 
+    ComplementSerializer, ItemSerializer, MenuSerializer, 
+    RestaurantCategorySerializer, ItemCategorySerializer
 )
 
 class TemplateClass(ABC):
@@ -158,6 +160,82 @@ class MenuView(TemplateClass):
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(Menu, MenuSerializer, pk)
+
+class ItemCategoryView(TemplateClass):
+    @api_view(['GET', 'POST'])
+    def handle_get_or_post(request):
+        if request.method == 'GET':
+            return TemplateClass.get_all(ItemCategory, ItemCategorySerializer)
+        if request.method == 'POST':
+            return TemplateClass.post(request, ItemCategorySerializer)
+
+    @api_view(['GET', 'PUT', 'DELETE'])
+    def handle_get_by_pk(request, pk):
+        if request.method == 'GET':
+            return TemplateClass.get_by_pk(ItemCategory, ItemCategorySerializer, pk)
+
+        elif request.method == 'PUT':
+            return TemplateClass.put(ItemCategory, ItemCategorySerializer, pk)
+        
+        elif request.method == 'DELETE':
+            return TemplateClass.delete(ItemCategory, ItemCategorySerializer, pk)
+
+class RestaurantCategoryView(TemplateClass):
+    @api_view(['GET', 'POST'])
+    def handle_get_or_post(request):
+        if request.method == 'GET':
+            return TemplateClass.get_all(RestaurantCategory, RestaurantCategorySerializer)
+        if request.method == 'POST':
+            return TemplateClass.post(request, RestaurantCategorySerializer)
+
+    @api_view(['GET', 'PUT', 'DELETE'])
+    def handle_get_by_pk(request, pk):
+        if request.method == 'GET':
+            return TemplateClass.get_by_pk(RestaurantCategory, RestaurantCategorySerializer, pk)
+
+        elif request.method == 'PUT':
+            return TemplateClass.put(RestaurantCategory, RestaurantCategorySerializer, pk)
+        
+        elif request.method == 'DELETE':
+            return TemplateClass.delete(RestaurantCategory, RestaurantCategorySerializer, pk)
+
+class ItemCategoryView(TemplateClass):
+    @api_view(['GET', 'POST'])
+    def handle_get_or_post(request):
+        if request.method == 'GET':
+            return TemplateClass.get_all(ItemCategory, ItemCategorySerializer)
+        if request.method == 'POST':
+            return TemplateClass.post(request, ItemCategorySerializer)
+
+    @api_view(['GET', 'PUT', 'DELETE'])
+    def handle_get_by_pk(request, pk):
+        if request.method == 'GET':
+            return TemplateClass.get_by_pk(ItemCategory, ItemCategorySerializer, pk)
+
+        elif request.method == 'PUT':
+            return TemplateClass.put(ItemCategory, ItemCategorySerializer, pk)
+        
+        elif request.method == 'DELETE':
+            return TemplateClass.delete(ItemCategory, ItemCategorySerializer, pk)
+
+class ComplementView(TemplateClass):
+    @api_view(['GET', 'POST'])
+    def handle_get_or_post(request):
+        if request.method == 'GET':
+            return TemplateClass.get_all(Complement, ComplementSerializer)
+        if request.method == 'POST':
+            return TemplateClass.post(request, ComplementSerializer)
+
+    @api_view(['GET', 'PUT', 'DELETE'])
+    def handle_get_by_pk(request, pk):
+        if request.method == 'GET':
+            return TemplateClass.get_by_pk(Complement, ComplementSerializer, pk)
+
+        elif request.method == 'PUT':
+            return TemplateClass.put(Complement, ComplementSerializer, pk)
+        
+        elif request.method == 'DELETE':
+            return TemplateClass.delete(Complement, ComplementSerializer, pk)
 
 @api_view(['GET'])
 def see_qrcode(request, pk):
