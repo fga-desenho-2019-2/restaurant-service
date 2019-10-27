@@ -2,7 +2,6 @@ from django.test import TestCase
 from model_mommy import mommy
 from restaurant_service.api.models import (
     Shopping, 
-    OpeningHours, 
     RestaurantCategory, 
     Restaurant, 
     Menu, 
@@ -31,17 +30,17 @@ class TestShopping(TestCase):
     self.assertEquals(self.shopping.__str__(), self.shopping.name)
 
 
-class TestOpeningHours(TestCase):
-  def setUp(self):
-    self.opening_hours = mommy.make(OpeningHours, 
-      day = 'Segunda-feira',
-      start_time = '10:00:00',
-      end_time = '22:00:00',
-    )
-      
-  def test_shopping_creation(self):
-    self.assertTrue(isinstance(self.opening_hours, OpeningHours))
-
+#class TestOpeningHours(TestCase):
+#  def setUp(self):
+#    self.opening_hours = mommy.make(OpeningHours, 
+#      day = 'Segunda-feira',
+#      start_time = '10:00:00',
+#      end_time = '22:00:00',
+#    )
+#      
+#  def test_shopping_creation(self):
+#    self.assertTrue(isinstance(self.opening_hours, OpeningHours))
+#
 
 class TestRestaurantCategory(TestCase):
   def setUp(self):
@@ -65,16 +64,16 @@ class TestRestaurant(TestCase):
       number = 10,
       phone = '9999999999',
     )
-    self.opening_hours_monday = mommy.make(OpeningHours, 
-      day = 'Segunda-feira',
-      start_time = '10:00:00',
-      end_time = '22:00:00',
-    )
-    self.opening_hours_thuesday = mommy.make(OpeningHours, 
-      day = 'Terça-feira',
-      start_time = '10:00:00',
-      end_time = '22:00:00',
-    )
+   # self.opening_hours_monday = mommy.make(OpeningHours, 
+   #   day = 'Segunda-feira',
+   #   start_time = '10:00:00',
+   #   end_time = '22:00:00',
+   # )
+   # self.opening_hours_thuesday = mommy.make(OpeningHours, 
+   #   day = 'Terça-feira',
+   #   start_time = '10:00:00',
+   #   end_time = '22:00:00',
+   # )
     self.category = mommy.make(RestaurantCategory, name = 'Fast-food' )
     self.restaurant = mommy.make(Restaurant, 
       cnpj = '13339532',
@@ -84,7 +83,7 @@ class TestRestaurant(TestCase):
       phone = '99999999999',
       shopping = self.shopping,
       category = self.category,
-      opening_hours = [self.opening_hours_monday, self.opening_hours_thuesday],
+      #opening_hours = [self.opening_hours_monday, self.opening_hours_thuesday],
     )
       
   def test_shopping_creation(self):
