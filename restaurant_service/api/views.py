@@ -57,7 +57,7 @@ class TemplateClass(ABC):
         serializer = serializer(obj)
         return JsonResponse(serializer.data)
     
-    def put(model, serializer, pk):
+    def put(request, model, serializer, pk):
         """
         Edit one object.
         """
@@ -99,7 +99,7 @@ class RestaurantView(TemplateClass):
             return TemplateClass.get_by_pk(Restaurant, RestaurantSerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(Restaurant, RestaurantSerializer, pk)
+            return TemplateClass.put(request, Restaurant, RestaurantSerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(Restaurant, RestaurantSerializer, pk)
@@ -118,7 +118,7 @@ class ShoppingView(TemplateClass):
             return TemplateClass.get_by_pk(Shopping, ShoppingSerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(Shopping, ShoppingSerializer, pk)
+            return TemplateClass.put(request, Shopping, ShoppingSerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(Shopping, ShoppingSerializer, pk)
@@ -137,7 +137,7 @@ class ItemView(TemplateClass):
             return TemplateClass.get_by_pk(Item, ItemSerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(Item, ItemSerializer, pk)
+            return TemplateClass.put(request, Item, ItemSerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(Item, ItemSerializer, pk)
@@ -156,7 +156,7 @@ class MenuView(TemplateClass):
             return TemplateClass.get_by_pk(Menu, MenuSerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(Menu, MenuSerializer, pk)
+            return TemplateClass.put(request, Menu, MenuSerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(Menu, MenuSerializer, pk)
@@ -175,7 +175,7 @@ class ItemCategoryView(TemplateClass):
             return TemplateClass.get_by_pk(ItemCategory, ItemCategorySerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(ItemCategory, ItemCategorySerializer, pk)
+            return TemplateClass.put(request, ItemCategory, ItemCategorySerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(ItemCategory, ItemCategorySerializer, pk)
@@ -194,7 +194,7 @@ class RestaurantCategoryView(TemplateClass):
             return TemplateClass.get_by_pk(RestaurantCategory, RestaurantCategorySerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(RestaurantCategory, RestaurantCategorySerializer, pk)
+            return TemplateClass.put(request, RestaurantCategory, RestaurantCategorySerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(RestaurantCategory, RestaurantCategorySerializer, pk)
@@ -213,7 +213,7 @@ class ItemCategoryView(TemplateClass):
             return TemplateClass.get_by_pk(ItemCategory, ItemCategorySerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(ItemCategory, ItemCategorySerializer, pk)
+            return TemplateClass.put(request, ItemCategory, ItemCategorySerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(ItemCategory, ItemCategorySerializer, pk)
@@ -232,7 +232,7 @@ class ComplementView(TemplateClass):
             return TemplateClass.get_by_pk(Complement, ComplementSerializer, pk)
 
         elif request.method == 'PUT':
-            return TemplateClass.put(Complement, ComplementSerializer, pk)
+            return TemplateClass.put(request, Complement, ComplementSerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(Complement, ComplementSerializer, pk)

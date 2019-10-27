@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from json import loads
-from restaurant_service.api.models Shopping
+from restaurant_service.api.models import Shopping
 
 
 class QRCodeTest(APITestCase):
