@@ -57,3 +57,15 @@ class ComplementSerializer(ModelSerializer):
     model = model.Complement
     fields = '__all__'
 
+class ImageRestaurantSerializer(ModelSerializer):
+
+  class Meta:
+    model = model.ImageRestaurant
+    fields = '__all__'
+
+class ImageItemSerializer(ModelSerializer):
+
+  class Meta:
+    model = model.ImageItem
+    fields = '__all__'
+

@@ -68,7 +68,6 @@ class Restaurant(models.Model):
   def __str__(self):
     return self.name
 
-
 class Menu(models.Model):
   description = models.CharField(max_length=200)
   restaurant = models.ForeignKey(
@@ -139,3 +138,12 @@ class Complement(models.Model):
 
   def __str__(self):
     return self.title
+
+class ImageRestaurant(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='image')
+    image = models.ImageField(upload_to='restaurant_images', max_length=255)
+
+class ImageItem(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='image')
+    image = models.ImageField(upload_to='item_images', max_length=255)
+
