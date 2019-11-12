@@ -1,15 +1,12 @@
 from django.http import HttpResponse, JsonResponse
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
 from abc import ABC, abstractmethod
 import pyqrcode 
 
 from .models import (
     Restaurant, Shopping, Item, Menu,
-    RestaurantCategory, ItemCategory, Complement
+    RestaurantCategory, ItemCategory, Complement,
 )
 from .serializers import(
     RestaurantSerializer, ShoppingSerializer, 

@@ -6,3 +6,4 @@ model_mommy
 pyqrcode
 pypng
 django-cors-middleware
+pillow
