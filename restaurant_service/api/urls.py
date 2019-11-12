@@ -6,7 +6,7 @@ from .views import (
     MenuView, ItemCategoryView, RestaurantView,
     ComplementView, RestaurantCategoryView, see_qrcode
 )
-from .views_images import ImageRestaurantView, ImageRestaurantDetail
+from .image_views import ImageRestaurantView, ImageItemView
 
 urlpatterns = [
     path('restaurant/', RestaurantView.handle_get_or_post, name="restaurant"),
@@ -24,6 +24,5 @@ urlpatterns = [
     path('complement/', ComplementView.handle_get_or_post, name="complement"),
     path('complement/<int:pk>', ComplementView.handle_get_by_pk, name="complement_by_pk"),
     path('qrcode/<int:pk>', see_qrcode, name="see_qrcode"),
-    url(r'^image_restaurant/$', ImageRestaurantView.as_view(), name='image-restaurant'),
-    path('image_restaurant_detail/<int:pk>', ImageRestaurantDetail.as_view(), name='image-restaurant-detail')
+    path('restaurant_image', ImageRestaurantView, name='restaurant_image'),
 ]
