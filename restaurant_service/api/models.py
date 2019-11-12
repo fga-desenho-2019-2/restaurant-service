@@ -2,7 +2,7 @@ from django.db import models
 
 class Shopping(models.Model):
   created = models.DateTimeField(auto_now_add=True)
-  cnpj = models.IntegerField(primary_key=True, max_length=16)
+  cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
   city = models.CharField(max_length=100)
   state = models.CharField(max_length=30)

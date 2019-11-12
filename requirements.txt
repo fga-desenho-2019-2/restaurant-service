@@ -7,3 +7,4 @@ pyqrcode
 pypng
 django-cors-middleware
 pillow
+django-extra-fields

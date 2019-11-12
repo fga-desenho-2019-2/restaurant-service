@@ -2,10 +2,9 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from abc import ABC, abstractmethod
-import pyqrcode 
 
 from .models import ImageRestaurant, ImageItem
-from .serializers import ImageRestaurantSerializer, ItemSerializer
+from .serializers import ImageRestaurantSerializer, ImageItemSerializer
 
 class TemplateClass(ABC):
     @abstractmethod
@@ -14,6 +13,10 @@ class TemplateClass(ABC):
     
     @abstractmethod
     def handle_get_by_pk(request, pk):
+        pass
+
+    @abstractmethod
+    def get_by_fk(request, fk):
         pass
 
     def get_all(model, serializer):
@@ -46,6 +49,7 @@ class TemplateClass(ABC):
 
         serializer = serializer(obj)
         return JsonResponse(serializer.data)
+    
     
     def put(request, model, serializer, pk):
         """
@@ -93,6 +97,18 @@ class ImageRestaurantView(TemplateClass):
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(ImageRestaurant, ImageRestaurantSerializer, pk)
+    
+    @api_view(['GET'])
+    def get_by_fk(request, pk_restaurant):
+        """
+        Get one image by restaurant.
+        """
+        try:
+            obj = ImageRestaurant.objects.get(restaurant=pk_restaurant)
+        except ImageRestaurant.DoesNotExist:
+            return HttpResponse(status=404)
+
+        return HttpResponse(obj.image, content_type="image/png")
 
 class ImageItemView(TemplateClass):
     @api_view(['GET', 'POST'])
@@ -113,3 +129,14 @@ class ImageItemView(TemplateClass):
         elif request.method == 'DELETE':
             return TemplateClass.delete(ImageItem, ImageItemSerializer, pk)
 
+    @api_view(['GET'])
+    def get_by_fk(request, pk_item):
+        """
+        Get one image by item.
+        """
+        try:
+            obj = ImageItem.objects.get(item=pk_item)
+        except ImageItem.DoesNotExist:
+            return HttpResponse(status=404)
+
+        return HttpResponse(obj.image, content_type="image/png")
