@@ -45,7 +45,7 @@ class RestaurantCategory(models.Model):
 class Restaurant(models.Model):
   cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
-  corporate_name = models.CharField(max_length=100, default=name)
+  corporate_name = models.CharField(max_length=100)
   store_number = models.IntegerField()
   description = models.CharField(max_length=200, blank=True)
   phone = models.CharField(max_length=12)

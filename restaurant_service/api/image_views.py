@@ -18,7 +18,7 @@ class TemplateClass(ABC):
     @abstractmethod
     def get_by_fk(request, fk):
         pass
-
+    
     def get_all(model, serializer):
         """
         List all objects.
@@ -79,6 +79,7 @@ class TemplateClass(ABC):
         obj.delete()
         return HttpResponse(status=204)
 
+
 class ImageRestaurantView(TemplateClass):
     @api_view(['GET', 'POST'])
     def handle_get_or_post(request):
@@ -109,6 +110,7 @@ class ImageRestaurantView(TemplateClass):
             return HttpResponse(status=404)
 
         return HttpResponse(obj.image, content_type="image/png")
+    
 
 class ImageItemView(TemplateClass):
     @api_view(['GET', 'POST'])
