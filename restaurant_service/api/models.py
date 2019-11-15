@@ -2,7 +2,7 @@ from django.db import models
 
 class Shopping(models.Model):
   created = models.DateTimeField(auto_now_add=True)
-  cnpj = models.IntegerField(primary_key=True)
+  cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
   city = models.CharField(max_length=100)
   state = models.CharField(max_length=30)
@@ -45,7 +45,7 @@ class RestaurantCategory(models.Model):
 class Restaurant(models.Model):
   cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
-  corporate_name = models.CharField(max_length=100, default=name)
+  corporate_name = models.CharField(max_length=100)
   store_number = models.IntegerField()
   description = models.CharField(max_length=200, blank=True)
   phone = models.CharField(max_length=12)
@@ -67,7 +67,6 @@ class Restaurant(models.Model):
 
   def __str__(self):
     return self.name
-
 
 class Menu(models.Model):
   description = models.CharField(max_length=200)
@@ -139,3 +138,12 @@ class Complement(models.Model):
 
   def __str__(self):
     return self.title
+
+class ImageRestaurant(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='image')
+    image = models.ImageField(upload_to='restaurant_images', max_length=255)
+
+class ImageItem(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='image')
+    image = models.ImageField(upload_to='item_images', max_length=255)
+

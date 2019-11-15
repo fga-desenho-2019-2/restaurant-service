@@ -1,15 +1,12 @@
 from django.http import HttpResponse, JsonResponse
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
 from abc import ABC, abstractmethod
 import pyqrcode 
 
 from .models import (
     Restaurant, Shopping, Item, Menu,
-    RestaurantCategory, ItemCategory, Complement
+    RestaurantCategory, ItemCategory, Complement,
 )
 from .serializers import(
     RestaurantSerializer, ShoppingSerializer, 
@@ -45,7 +42,7 @@ class TemplateClass(ABC):
             return JsonResponse(serializer.data, status=201, safe=False)
         return JsonResponse(serializer.errors, status=400, safe=False)
 
-    def get_by_pk(model, serializer, pk):
+    def get_by_pk(model, serializer, pk, url_image=None):
         """
         Get one object.
         """
@@ -53,9 +50,15 @@ class TemplateClass(ABC):
             obj = model.objects.get(pk=pk)
         except model.DoesNotExist:
             return HttpResponse(status=404)
-
+        
         serializer = serializer(obj)
-        return JsonResponse(serializer.data)
+        data = serializer.data
+
+        if obj.image:
+            if url_image:
+                data['image'] = url_image+str(pk)
+        
+        return JsonResponse(data)
     
     def put(request, model, serializer, pk):
         """
@@ -85,6 +88,8 @@ class TemplateClass(ABC):
         obj.delete()
         return HttpResponse(status=204)
 
+host = 'http://0.0.0.0:8001/api/'
+
 class RestaurantView(TemplateClass):
     @api_view(['GET', 'POST'])
     def handle_get_or_post(request):
@@ -96,7 +101,8 @@ class RestaurantView(TemplateClass):
     @api_view(['GET', 'PUT', 'DELETE'])
     def handle_get_by_pk(request, pk):
         if request.method == 'GET':
-            return TemplateClass.get_by_pk(Restaurant, RestaurantSerializer, pk)
+            url_image = host + 'restaurant-image/'
+            return TemplateClass.get_by_pk(Restaurant, RestaurantSerializer, pk, url_image)
 
         elif request.method == 'PUT':
             return TemplateClass.put(request, Restaurant, RestaurantSerializer, pk)
@@ -123,6 +129,7 @@ class ShoppingView(TemplateClass):
         elif request.method == 'DELETE':
             return TemplateClass.delete(Shopping, ShoppingSerializer, pk)
 
+
 class ItemView(TemplateClass):
     @api_view(['GET', 'POST'])
     def handle_get_or_post(request):
@@ -134,13 +141,15 @@ class ItemView(TemplateClass):
     @api_view(['GET', 'PUT', 'DELETE'])
     def handle_get_by_pk(request, pk):
         if request.method == 'GET':
-            return TemplateClass.get_by_pk(Item, ItemSerializer, pk)
+            url_image = host + 'item-image/'
+            return TemplateClass.get_by_pk(Item, ItemSerializer, pk, url_image)
 
         elif request.method == 'PUT':
             return TemplateClass.put(request, Item, ItemSerializer, pk)
         
         elif request.method == 'DELETE':
             return TemplateClass.delete(Item, ItemSerializer, pk)
+
 
 class MenuView(TemplateClass):
     @api_view(['GET', 'POST'])
