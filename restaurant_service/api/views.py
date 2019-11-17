@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+import os
 from abc import ABC, abstractmethod
 import pyqrcode 
 
@@ -253,7 +254,7 @@ def see_qrcode(request, pk):
     except Shopping.DoesNotExist:
         return HttpResponse(status=404)
 
-    url = 'http://localhost:8001/'
+    url = 'http://app.marques.rocks/'
     # String which represent the QR code
     s = "{url}shopping/" + str(pk)
 

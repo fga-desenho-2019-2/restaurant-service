@@ -25,12 +25,31 @@ class RestaurantCategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
+class ImageRestaurantSerializer(ModelSerializer):
+    image = Base64ImageField()
+
+    class Meta:
+        model = model.ImageRestaurant
+        fields= ['image']
+
+        def create(self, validated_data):
+            image=validated_data.pop('image')
+            return model.objects.create(restaurant=restaurant,image=image)
+
+
 class RestaurantSerializer(ModelSerializer):
+    image = ImageRestaurantSerializer(many=True)
 
     class Meta:
         model = model.Restaurant
-        fields = ['name', 'cnpj', 'description', 'note', 'wait_time',
-                'category', 'image', 'shopping']
+        fields = '__all__'
+    
+    def create(self, validated_data): 
+        imgs_data = validated_data.pop('image')
+        restaurant = model.Restaurant.objects.create(**validated_data)
+        for img in imgs_data:
+            model.ImageRestaurant.objects.create(restaurant=restaurant, **img)
+        return restaurant
 
 
 class MenuSerializer(ModelSerializer):
@@ -83,18 +102,5 @@ class ItemCategorySerializer(ModelSerializer):
     class Meta:
         model = model.ItemCategory
         fields = '__all__'
-
-
-class ImageRestaurantSerializer(ModelSerializer):
-    image = Base64ImageField()
-
-    class Meta:
-        model = model.ImageRestaurant
-        fields= ('restaurant', 'image')
-
-        def create(self, validated_data):
-            image=validated_data.pop('image')
-            restaurant=validated_data.pop('restaurant')
-            return model.objects.create(restaurant=restaurant,image=image)
 
 
