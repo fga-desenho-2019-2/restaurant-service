@@ -29,7 +29,8 @@ class RestaurantSerializer(ModelSerializer):
 
     class Meta:
         model = model.Restaurant
-        fields = '__all__'
+        fields = ['name', 'cnpj', 'description', 'note', 'wait_time',
+                'category', 'image', 'shopping']
 
 
 class MenuSerializer(ModelSerializer):

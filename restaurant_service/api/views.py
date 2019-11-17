@@ -53,10 +53,11 @@ class TemplateClass(ABC):
         
         serializer = serializer(obj)
         data = serializer.data
-
-        if obj.img:
-            if url_image:
-                data['img'] = url_image+str(pk)
+        print("@"*10, data)
+        if 'image' in data:
+            if data['image']:
+                if url_image:
+                    data['image'] = url_image+str(pk)
         
         return JsonResponse(data)
     

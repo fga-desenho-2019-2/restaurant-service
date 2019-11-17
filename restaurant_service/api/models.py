@@ -45,10 +45,12 @@ class RestaurantCategory(models.Model):
 class Restaurant(models.Model):
   cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
-  corporate_name = models.CharField(max_length=100)
-  store_number = models.IntegerField()
+#  corporate_name = models.CharField(max_length=100)
+#  store_number = models.IntegerField()
   description = models.CharField(max_length=200, blank=True)
-  phone = models.CharField(max_length=12)
+  note = models.FloatField(blank=True)
+  wait_time = models.DurationField(blank=True)
+#  phone = models.CharField(max_length=12)
   shopping = models.ForeignKey(
     Shopping, 
     on_delete=models.CASCADE,
@@ -85,9 +87,7 @@ class Menu(models.Model):
 
 
 class ItemCategory(models.Model):
-  title = models.CharField(max_length=50)
-  description = models.CharField(max_length=200, blank=True)
-  number_of_items = models.IntegerField()
+  name = models.CharField(max_length=50)
   
   class Meta:
     verbose_name = u'Item category'
@@ -132,10 +132,10 @@ class Complement(models.Model):
     return self.title
 
 class ImageRestaurant(models.Model):
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='img')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='image')
     image = models.ImageField(upload_to='restaurant_images', max_length=255)
 
 class ImageItem(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='img')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='image')
     image = models.ImageField(upload_to='item_images', max_length=255)
 
