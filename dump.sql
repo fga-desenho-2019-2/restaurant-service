@@ -1,3 +1,5 @@
+DROP DATABASE restaurant_db;
+CREATE DATABASE restaurant_db;
 --
 -- PostgreSQL database dump
 --
