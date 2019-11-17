@@ -61,7 +61,7 @@ class ImageItemSerializer(ModelSerializer):
 
 class ItemSerializer(ModelSerializer):
     sidedish = ComplementSerializer(many=True)
-    img = ImageItemSerializer(many=True)
+    image = ImageItemSerializer(many=True)
 
     class Meta:
         model = model.Item
@@ -69,7 +69,7 @@ class ItemSerializer(ModelSerializer):
     
     def create(self, validated_data): 
         complements_data = validated_data.pop('sidedish')
-        imgs_data = validated_data.pop('img')
+        imgs_data = validated_data.pop('image')
         item = model.Item.objects.create(**validated_data)
         for complement in complements_data:
             model.Complement.objects.create(item=item, **complement)

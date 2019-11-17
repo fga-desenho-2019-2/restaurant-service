@@ -53,7 +53,6 @@ class TemplateClass(ABC):
         
         serializer = serializer(obj)
         data = serializer.data
-        print("@"*10, data)
         if 'image' in data:
             if data['image']:
                 if url_image:
