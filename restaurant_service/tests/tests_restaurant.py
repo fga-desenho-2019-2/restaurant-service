@@ -23,16 +23,6 @@ class RestaurantTests(APITestCase):
             number = 10,
             phone = '99999999999'
         )
-        #self.opening_hours_monday = mommy.make(OpeningHours,
-        #    day = 'Segunda-feira',
-        #    start_time = '10:00:00',
-        #    end_time = '22:00:00', 
-        #)
-        #self.opening_hours_thuesday = mommy.make(OpeningHours,
-        #    day = 'Terça-feira',
-        #    start_time = '10:00:00',
-        #    end_time = '22:00:00',
-        #)
         self.category = mommy.make(RestaurantCategory, name = 'Fast-food' )
         self.restaurant = {
                'cnpj' : '13339532',
