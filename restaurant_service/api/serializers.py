@@ -34,7 +34,7 @@ class ImageRestaurantSerializer(ModelSerializer):
 
         def create(self, validated_data):
             image=validated_data.pop('image')
-            return model.objects.create(restaurant=restaurant,image=image)
+            return model.objects.create(image=image)
 
 
 class RestaurantSerializer(ModelSerializer):
