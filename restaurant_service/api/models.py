@@ -87,7 +87,6 @@ class Menu(models.Model):
 class ItemCategory(models.Model):
   title = models.CharField(max_length=50)
   description = models.CharField(max_length=200, blank=True)
-  required = models.BooleanField()
   number_of_items = models.IntegerField()
   
   class Meta:
@@ -101,18 +100,9 @@ class ItemCategory(models.Model):
 class Item(models.Model):
   name = models.CharField(max_length=50)
   value = models.FloatField()
-  description = models.CharField(max_length=200, blank=True)
-  preparation_time = models.DurationField(blank=True)
-  menu = models.ForeignKey(
-    Menu, 
-    on_delete=models.CASCADE,
-    related_name="items"
-  )
-  category = models.ForeignKey(
-    ItemCategory, 
-    on_delete=models.CASCADE,
-    related_name="items"
-  )
+  details = models.TextField(max_length=300)
+  category = models.CharField(max_length=50)
+  restaurant_cnpj = models.CharField(max_length=16)
 
   class Meta:
     verbose_name = u'Item'
@@ -123,13 +113,15 @@ class Item(models.Model):
 
 
 class Complement(models.Model):
-  title = models.CharField(max_length=50)
+  name = models.CharField(max_length=50)
   description = models.CharField(max_length=200)
   value = models.FloatField(blank=True)
-  item_category = models.ForeignKey(
-    ItemCategory,
+  selected = models.BooleanField(default=False)
+  qtd = models.IntegerField()
+  item = models.ForeignKey(
+    Item,
     on_delete=models.CASCADE,
-    related_name="complement_category"
+    related_name="sidedish"
   )
 
   class Meta:
@@ -144,6 +136,6 @@ class ImageRestaurant(models.Model):
     image = models.ImageField(upload_to='restaurant_images', max_length=255)
 
 class ImageItem(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='image')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='img')
     image = models.ImageField(upload_to='item_images', max_length=255)
 
