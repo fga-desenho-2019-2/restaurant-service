@@ -132,7 +132,7 @@ class Complement(models.Model):
     return self.title
 
 class ImageRestaurant(models.Model):
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='image')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='img')
     image = models.ImageField(upload_to='restaurant_images', max_length=255)
 
 class ImageItem(models.Model):

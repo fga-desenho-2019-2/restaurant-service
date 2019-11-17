@@ -54,9 +54,9 @@ class TemplateClass(ABC):
         serializer = serializer(obj)
         data = serializer.data
 
-        if obj.image:
+        if obj.img:
             if url_image:
-                data['image'] = url_image+str(pk)
+                data['img'] = url_image+str(pk)
         
         return JsonResponse(data)
     
