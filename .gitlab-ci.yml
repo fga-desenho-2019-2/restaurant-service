@@ -52,10 +52,10 @@ tests:
     - ./manage.py makemigrations
     - ./manage.py migrate
     - coverage run --source='.' manage.py test
-    - coverage xml > cov-report.xml
+    - coverage html -d cov-html
   artifacts:
     paths:
-      - 'cov-report.xml'
+      - cov-html/*
   <<: *all_branches
 
 radon:
