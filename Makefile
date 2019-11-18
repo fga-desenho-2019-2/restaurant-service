@@ -42,7 +42,10 @@ migrations:
 
 migrate:
 	# Migrate migrations
-	docker-compose run api python manage.py migrate
+	sudo docker-compose up -d
+	sudo docker exec -it restaurant-service python manage.py makemigrations
+	sudo docker exec -it restaurant-service python manage.py migrate
+	sudo docker-compose logs -f
 
 test:
 	# run unit tests

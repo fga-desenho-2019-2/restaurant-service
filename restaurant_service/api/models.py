@@ -45,10 +45,12 @@ class RestaurantCategory(models.Model):
 class Restaurant(models.Model):
   cnpj = models.CharField(primary_key=True, max_length=16)
   name = models.CharField(max_length=100)
-  corporate_name = models.CharField(max_length=100, blank=True)
-  store_number = models.IntegerField()
+#  corporate_name = models.CharField(max_length=100)
+#  store_number = models.IntegerField()
   description = models.CharField(max_length=200, blank=True)
-  phone = models.CharField(max_length=12)
+  note = models.FloatField(blank=True)
+  wait_time = models.DurationField(blank=True)
+#  phone = models.CharField(max_length=12)
   shopping = models.ForeignKey(
     Shopping, 
     on_delete=models.CASCADE,
@@ -85,34 +87,22 @@ class Menu(models.Model):
 
 
 class ItemCategory(models.Model):
-  title = models.CharField(max_length=50)
-  description = models.CharField(max_length=200, blank=True)
-  required = models.BooleanField()
-  number_of_items = models.IntegerField()
+  name = models.CharField(max_length=50)
   
   class Meta:
     verbose_name = u'Item category'
     verbose_name_plural = u'Items categorys'
 
   def __str__(self):
-    return self.title
+    return self.name
 
 
 class Item(models.Model):
   name = models.CharField(max_length=50)
   value = models.FloatField()
-  description = models.CharField(max_length=200, blank=True)
-  preparation_time = models.DurationField(blank=True)
-  menu = models.ForeignKey(
-    Menu, 
-    on_delete=models.CASCADE,
-    related_name="items"
-  )
-  category = models.ForeignKey(
-    ItemCategory, 
-    on_delete=models.CASCADE,
-    related_name="items"
-  )
+  details = models.TextField(max_length=300)
+  category = models.CharField(max_length=50)
+  restaurant_cnpj = models.CharField(max_length=16)
 
   class Meta:
     verbose_name = u'Item'
@@ -123,13 +113,15 @@ class Item(models.Model):
 
 
 class Complement(models.Model):
-  title = models.CharField(max_length=50)
+  name = models.CharField(max_length=50)
   description = models.CharField(max_length=200)
   value = models.FloatField(blank=True)
-  item_category = models.ForeignKey(
-    ItemCategory,
+  selected = models.BooleanField(default=False)
+  qtd = models.IntegerField()
+  item = models.ForeignKey(
+    Item,
     on_delete=models.CASCADE,
-    related_name="complement_category"
+    related_name="sidedish"
   )
 
   class Meta:
@@ -137,7 +129,7 @@ class Complement(models.Model):
     verbose_name_plural = u'Complements categorys'
 
   def __str__(self):
-    return self.title
+    return self.name
 
 class ImageRestaurant(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='image')

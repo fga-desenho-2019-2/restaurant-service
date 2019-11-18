@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+import os
 from abc import ABC, abstractmethod
 import pyqrcode 
 
@@ -53,10 +54,10 @@ class TemplateClass(ABC):
         
         serializer = serializer(obj)
         data = serializer.data
-
-        if obj.image:
-            if url_image:
-                data['image'] = url_image+str(pk)
+        if 'image' in data:
+            if data['image']:
+                if url_image:
+                    data['image'] = url_image+str(pk)
         
         return JsonResponse(data)
     
@@ -253,9 +254,9 @@ def see_qrcode(request, pk):
     except Shopping.DoesNotExist:
         return HttpResponse(status=404)
 
-    url = 'http://localhost:8001/'
+    url = 'http://app.marques.rocks/'
     # String which represent the QR code
-    s = "{url}shopping/" + str(pk)
+    s = f"{url}shopping/" + str(pk)
 
     # Generate QR code
     url = pyqrcode.create(s)

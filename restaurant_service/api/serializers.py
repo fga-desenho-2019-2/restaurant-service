@@ -25,11 +25,31 @@ class RestaurantCategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
+class ImageRestaurantSerializer(ModelSerializer):
+    image = Base64ImageField()
+
+    class Meta:
+        model = model.ImageRestaurant
+        fields= ['image']
+
+        def create(self, validated_data):
+            image=validated_data.pop('image')
+            return model.objects.create(image=image)
+
+
 class RestaurantSerializer(ModelSerializer):
+    image = ImageRestaurantSerializer(many=True)
 
     class Meta:
         model = model.Restaurant
         fields = '__all__'
+    
+    def create(self, validated_data): 
+        imgs_data = validated_data.pop('image')
+        restaurant = model.Restaurant.objects.create(**validated_data)
+        for img in imgs_data:
+            model.ImageRestaurant.objects.create(restaurant=restaurant, **img)
+        return restaurant
 
 
 class MenuSerializer(ModelSerializer):
@@ -39,11 +59,42 @@ class MenuSerializer(ModelSerializer):
         fields = '__all__'
 
 
+class ComplementSerializer(ModelSerializer):
+
+    class Meta:
+        model = model.Complement
+        fields = ['name', 'description', 'selected', 'value', 'qtd']
+
+
+class ImageItemSerializer(ModelSerializer):
+    image = Base64ImageField()
+
+    class Meta:
+        model = model.ImageItem
+        fields= ['image']
+
+        def create(self, validated_data):
+            image=validated_data.pop('image')
+            return model.objects.create(image=image)
+
+
 class ItemSerializer(ModelSerializer):
+    sidedish = ComplementSerializer(many=True)
+    image = ImageItemSerializer(many=True)
 
     class Meta:
         model = model.Item
         fields = '__all__'
+    
+    def create(self, validated_data): 
+        complements_data = validated_data.pop('sidedish')
+        imgs_data = validated_data.pop('image')
+        item = model.Item.objects.create(**validated_data)
+        for complement in complements_data:
+            model.Complement.objects.create(item=item, **complement)
+        for img in imgs_data:
+            model.ImageItem.objects.create(item=item, **img)
+        return item
 
 
 class ItemCategorySerializer(ModelSerializer):
@@ -53,33 +104,3 @@ class ItemCategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
-class ComplementSerializer(ModelSerializer):
-
-    class Meta:
-        model = model.Complement
-        fields = '__all__'
-
-class ImageRestaurantSerializer(ModelSerializer):
-    image = Base64ImageField()
-
-    class Meta:
-        model = model.ImageRestaurant
-        fields= ('restaurant', 'image')
-
-        def create(self, validated_data):
-            image=validated_data.pop('image')
-            restaurant=validated_data.pop('restaurant')
-            return model.objects.create(restaurant=restaurant,image=image)
-
-
-class ImageItemSerializer(ModelSerializer):
-    image = Base64ImageField()
-
-    class Meta:
-        model = model.ImageItem
-        fields= ('item', 'image')
-
-        def create(self, validated_data):
-            image=validated_data.pop('image')
-            item=validated_data.pop('item')
-            return model.objects.create(item=item,image=image)

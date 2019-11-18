@@ -14,21 +14,14 @@ from restaurant_service.api.models import (
 class ItemTests(APITestCase):
     def setUp(self):
         self.category = mommy.make(ItemCategory,
-            title = "Bebidas",
-            description = 'Acompanhamentos líquidos',
-            required = True,
-            number_of_items = 11
-        )
-        self.menu = mommy.make(Menu,
-            description = "Massas"
+            name = "Bebidas",
         )
         self.item = {
                'name' : 'Macarrão',
                'value' : 12.00,
-               'description'  : 'Espaguete',
-               'category' : self.category.pk,
-               'preparation_time' : '00:45:00',
-               'menu': self.menu.pk
+               'details'  : 'Espaguete',
+               'category' : "1",
+               'restaurant_cnpj' : "12345",
         }
 
         self.url_post = reverse('item') # url "api/item"

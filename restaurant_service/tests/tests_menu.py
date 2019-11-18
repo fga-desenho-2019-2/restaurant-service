@@ -15,9 +15,9 @@ class MenuTests(APITestCase):
         self.restaurant = mommy.make(Restaurant,
                cnpj = '13339532',
                name = 'Burger King',
-               store_number = 112,
                description = 'O melhor FastFood',
-               phone = '99999999999',
+               note = 4.8,
+               wait_time = '00:12:00'
         )
 
         self.menu = {
