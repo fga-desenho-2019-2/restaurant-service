@@ -4,23 +4,25 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from json import loads
-from restaurant_service.api.models import Complement, ItemCategory
+from restaurant_service.api.models import Complement, Item
 
 
 class ComplementTests(APITestCase):
     def setUp(self):
-        self.item_category = mommy.make(ItemCategory,
-              title = "Bebidas",
-              description = 'Acompanhamentos líquidos',
-              required = True,
-              number_of_items = 11
+        self.item = mommy.make(Item, 
+            name = 'X-Salada',
+            value = 20.50,
+            details = 'Sanduiche muito gostoso', 
+            category = "1",
+            restaurant_cnpj = "12345"
         )
         self.complement = {
-                'title' : 'Bebida',
-                'description': 'Escolha uma bebida',
-                'value' : 2.00,
-                'number_of_items' : 3,
-                'item_category': self.item_category.pk
+            'name' : 'Bebida',
+            'description': 'Escolha uma bebida',
+            'value' : 2.00,
+            'selected': False,
+            'qtd' : 3,
+            'item' : self.item.pk
         }
         self.url_post = reverse('complement') # url "api/complement"
 
@@ -34,7 +36,7 @@ class ComplementTests(APITestCase):
         response = self.client.post(self.url_post, self.complement, format='json') 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Complement.objects.count(), 1)
-        self.assertEqual(Complement.objects.get().title, 'Bebida')
+        self.assertEqual(Complement.objects.get().name, 'Bebida')
         
 
     def test_put_complement(self):

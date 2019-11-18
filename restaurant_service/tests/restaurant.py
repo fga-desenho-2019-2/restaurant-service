@@ -21,18 +21,16 @@ class RestaurantTests(APITestCase):
             neighborhood = 'Bairro das Castanheiras',
             cep = '7222323',
             number = 10,
-            phone = '99999999999'
         )
         self.category = mommy.make(RestaurantCategory, name = 'Fast-food' )
         self.restaurant = {
                'cnpj' : '13339532',
                'name' : 'Burger King',
-               'store_number': 112,
                'description'  : 'O melhor FastFood',
-               'phone' : '99999999999',
                'shopping' : self.shopping.pk,
                'category' : self.category.pk,
-        #       'opening_hours' : [self.opening_hours_monday.pk, self.opening_hours_thuesday.pk]
+               'note': 4.8,
+               'wait_time': '00:12:00'
         }
 
         self.pk = 13339532

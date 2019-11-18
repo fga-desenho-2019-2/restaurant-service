@@ -94,7 +94,7 @@ class ItemCategory(models.Model):
     verbose_name_plural = u'Items categorys'
 
   def __str__(self):
-    return self.title
+    return self.name
 
 
 class Item(models.Model):
@@ -129,7 +129,7 @@ class Complement(models.Model):
     verbose_name_plural = u'Complements categorys'
 
   def __str__(self):
-    return self.title
+    return self.name
 
 class ImageRestaurant(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='image')
