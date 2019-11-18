@@ -981,8 +981,8 @@ COPY public.restaurant_service_imageitem (id, image, item_id) FROM stdin;
 --
 
 COPY public.restaurant_service_imagerestaurant (id, image, restaurant_id) FROM stdin;
-1	restaurant_images/339dbd21-ee8e-42dc-8221-3f2182e9d98c.jpg	567843321745
-2	restaurant_images/55cab2c9-2add-43ee-8e05-0c197d702efa.jpg	05712768000101
+1	restaurant_images/339dbd21-ee8e-42dc-8221-3f2182e9d98c.jpg	36367334000145
+2	restaurant_images/55cab2c9-2add-43ee-8e05-0c197d702efa.jpg	53681471000179
 \.
 
 
@@ -991,12 +991,12 @@ COPY public.restaurant_service_imagerestaurant (id, image, restaurant_id) FROM s
 --
 
 COPY public.restaurant_service_item (id, name, value, details, category, restaurant_cnpj) FROM stdin;
-1	Especial do Chef	18.5	Prato especial do chef.	1	567843321745
-2	Feijoada	22	Feijoada tradicional.	1	567843321745
-3	Macarrão	25	Macarrão ao alho e óleo e temperos diversos.	1	567843321745
-4	Pizza de banana	30	Pizza de banana com queijo mussarela.	2	05712768000101
-5	Shoyu Tyashu Lamen	27	Lamen tradicional , com caldo encorpado à base de shoyu.	2	05712768000101
-6	Lasanha vegetariana	22.19	Lasanha de legumes, queijo mussarela e massa tradicional.	2	05712768000101
+1	Especial do Chef	18.5	Prato especial do chef.	1	36367334000145
+2	Feijoada	22	Feijoada tradicional.	1	36367334000145
+3	Macarrão	25	Macarrão ao alho e óleo e temperos diversos.	1	36367334000145
+4	Pizza de banana	30	Pizza de banana com queijo mussarela.	2	53681471000179
+5	Shoyu Tyashu Lamen	27	Lamen tradicional , com caldo encorpado à base de shoyu.	2	53681471000179
+6	Lasanha vegetariana	22.19	Lasanha de legumes, queijo mussarela e massa tradicional.	2	53681471000179
 \.
 
 
@@ -1023,8 +1023,8 @@ COPY public.restaurant_service_menu (id, description, restaurant_id) FROM stdin;
 --
 
 COPY public.restaurant_service_restaurant (cnpj, name, description, note, wait_time, category_id, shopping_id) FROM stdin;
-567843321745	Pé de Fava		4	00:30:00	1	1
-05712768000101	Saborear		4.6	00:15:00	1	1
+36367334000145	Pé de Fava		4	00:30:00	1	1
+53681471000179	Saborear		4.6	00:15:00	1	1
 \.
 
 
