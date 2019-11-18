@@ -256,7 +256,7 @@ def see_qrcode(request, pk):
 
     url = 'http://app.marques.rocks/'
     # String which represent the QR code
-    s = "{url}shopping/" + str(pk)
+    s = f"{url}shopping/" + str(pk)
 
     # Generate QR code
     url = pyqrcode.create(s)
